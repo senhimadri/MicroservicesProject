@@ -13,7 +13,7 @@ public class ItemRepository
 
     public ItemRepository()
     {
-        var mongoClient = new MongoClient("mongodb://localhost:270147");
+        var mongoClient = new MongoClient("mongodb://localhost:27017");
         var database = mongoClient.GetDatabase("Catalog");
         dbCollection = database.GetCollection<Item>(collectionName);
     }
