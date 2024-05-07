@@ -16,11 +16,10 @@ public class ItemController : ControllerBase
     public async Task<IEnumerable<ItemDto>> GetAsync()
     {
         var items = (await _itemRepos.GetAllAsync())
-                    .Select(item => item.AsDto())
-                        ;
+                        .Select(item => item.AsDto());
+
         return items;
     }
-
 
     [HttpGet("{id}")]
     public async Task<ActionResult<ItemDto>> GetByIdAsync(Guid id)
@@ -76,6 +75,5 @@ public class ItemController : ControllerBase
 
         return NoContent();
     }
-
 }
 
