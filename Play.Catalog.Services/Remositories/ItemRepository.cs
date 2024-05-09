@@ -4,21 +4,21 @@ using SharpCompress.Common;
 
 namespace Play.Catalog.Services.Remositories;
 
-public class ItemRepository
+public class ItemRepository : IItemRepository
 {
     private const string collectionName = "items";
     private readonly IMongoCollection<Item> dbCollection;
 
     private readonly FilterDefinitionBuilder<Item> filterBuilder = Builders<Item>.Filter;
 
-    public ItemRepository()
-    {
-        var mongoClient = new MongoClient("mongodb://localhost:27017");
-        var database = mongoClient.GetDatabase("Catalog");
-        dbCollection = database.GetCollection<Item>(collectionName);
-    }
+    public ItemRepository(IMongoDatabase database) => dbCollection = database.GetCollection<Item>(collectionName);
+    //{
+    //    //var mongoClient = new MongoClient("mongodb://localhost:27017");
+    //    //var database = mongoClient.GetDatabase("Catalog");
+    //    dbCollection = database.GetCollection<Item>(collectionName);
+    //}
 
-    public async Task<IReadOnlyCollection<Item>>  GetAllAsync()
+    public async Task<IReadOnlyCollection<Item>> GetAllAsync()
     {
         return await dbCollection.Find(filterBuilder.Empty).ToListAsync();
     }
@@ -45,7 +45,7 @@ public class ItemRepository
 
         FilterDefinition<Item> filter = filterBuilder.Eq(Existingentity => Existingentity.Id, entity.Id);
 
-        await dbCollection.ReplaceOneAsync(filter,entity);
+        await dbCollection.ReplaceOneAsync(filter, entity);
     }
 
     public async Task RemoveAsync(Guid id)
