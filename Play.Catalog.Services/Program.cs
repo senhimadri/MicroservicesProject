@@ -2,6 +2,7 @@ using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Serializers;
 using MongoDB.Driver;
+using Play.Catalog.Services.Entities;
 using Play.Catalog.Services.Remositories;
 using Play.Catalog.Services.Settings;
 
@@ -21,17 +22,19 @@ builder.Services.AddSingleton(serviceProvider =>
     return MongoClient.GetDatabase(servicesSettings!.ServiceName ?? string.Empty );
 });
 
-builder.Services.AddSingleton<IItemRepository,ItemRepository>();
+builder.Services.AddSingleton<IRepository<Item>>(serviceProvider=>
+{
+    var database = serviceProvider.GetService<IMongoDatabase>();
+    return new MongoRepository<Item>(database!, "items");
+});
 
 BsonSerializer.RegisterSerializer(new GuidSerializer(BsonType.String));
 BsonSerializer.RegisterSerializer(new DateTimeOffsetSerializer(BsonType.String));
-
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
-
 
 if (app.Environment.IsDevelopment())
 {

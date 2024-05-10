@@ -10,9 +10,9 @@ namespace Play.Catalog.Services.Controllers;
 [ApiController]
 public class ItemController : ControllerBase
 {
-    private readonly IItemRepository _itemRepos;
+    private readonly IRepository<Item> _itemRepos;
 
-    public ItemController(IItemRepository itemRepos) => _itemRepos= itemRepos;
+    public ItemController(IRepository<Item> itemRepos) => _itemRepos= itemRepos;
 
     [HttpGet]
     public async Task<IEnumerable<ItemDto>> GetAsync()
@@ -48,7 +48,7 @@ public class ItemController : ControllerBase
         return CreatedAtAction(nameof(GetByIdAsync), new { id = item.Id }, item);
     }
 
-    [HttpPut("id")]
+    [HttpPut("{id}")]
     public async Task<IActionResult> PutAsync (Guid Id, UpdateItemDto updatedItemDto)
     {
         var existingItem = await _itemRepos.GetAsync(Id);
