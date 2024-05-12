@@ -1,5 +1,5 @@
 using Play.Catalog.Services.Settings;
-using Play.Catalog.Services.Remositories;
+using Play.Catalog.Services.Repositories;
 using Play.Catalog.Services.Entities;
 
 var builder = WebApplication.CreateBuilder(args);

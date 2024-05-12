@@ -5,7 +5,7 @@ using Play.Catalog.Services.Settings;
 using MongoDB.Driver;
 using Play.Catalog.Services.Entities;
 
-namespace Play.Catalog.Services.Remositories;
+namespace Play.Catalog.Services.Repositories;
 
 public static class Extensions
 {

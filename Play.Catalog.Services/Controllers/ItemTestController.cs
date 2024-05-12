@@ -6,14 +6,13 @@ using Play.Catalog.Services.Repositories;
 
 namespace Play.Catalog.Services.Controllers;
 
-
-[Route("items")]
+[Route("itemsTest")]
 [ApiController]
-public class ItemController : ControllerBase
+public class ItemTestController : ControllerBase
 {
     private readonly IRepository<Item> _itemRepos;
 
-    public ItemController(IRepository<Item> itemRepos) => _itemRepos= itemRepos;
+    public ItemTestController(IRepository<Item> itemRepos) => _itemRepos= itemRepos;
 
     [HttpGet]
     public async Task<IEnumerable<ItemDto>> GetAsync()
