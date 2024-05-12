@@ -11,7 +11,7 @@ public class ItemController : ControllerBase
 {
     private readonly IRepository<Item> _itemRepos;
 
-    public ItemController(IRepository<Item> itemRepos) => _itemRepos= itemRepos;
+    public ItemController(IRepository<Item> itemRepos) => _itemRepos = itemRepos;
 
     [HttpGet]
     public async Task<IEnumerable<ItemDto>> GetAsync()
