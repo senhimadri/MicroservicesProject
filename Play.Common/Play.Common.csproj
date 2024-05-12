@@ -5,14 +5,14 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
-    <Title>GenericRepository.Core</Title>
+    <Title></Title>
     <PackageIcon>images.png</PackageIcon>
     <PackageOutputPath>D:\OWN_Practice\Microservices\MicroservicesProject\NugutPackages</PackageOutputPath>
-    <PackageId>GenericRepository.Core</PackageId>
-    <Version>1.0.0</Version>
+    <PackageId>$(AssemblyName)</PackageId>
+    <Version>$(VersionPrefix)</Version>
     <Authors>Himadri Sen</Authors>
     <Company>Senhimadri Dev</Company>
-    <Product>GenericRepository.Core</Product>
+    <Product>$(AssemblyName)</Product>
   </PropertyGroup>
 
   <ItemGroup>
