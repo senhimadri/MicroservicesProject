@@ -11,7 +11,9 @@ namespace Play.Inventory.Services.Controllers;
 public class ItemController : ControllerBase
 {
     private readonly IRepository<InventoryItems> _itemRepository;
-    private readonly CatalogClient _catalogClient; 
+    private readonly CatalogClient _catalogClient;
+
+
 
 	public ItemController(IRepository<InventoryItems> itemRepository, CatalogClient catalogClient) 
                         => (_itemRepository, _catalogClient)  = (itemRepository, catalogClient);
