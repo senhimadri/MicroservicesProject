@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Play.Common;
+using Play.Inventory.Services.Clients;
 using Play.Inventory.Services.Dtos;
 using Play.Inventory.Services.Entities;
 
@@ -10,7 +11,10 @@ namespace Play.Inventory.Services.Controllers;
 public class ItemController : ControllerBase
 {
     private readonly IRepository<InventoryItems> _itemRepository;
-	public ItemController(IRepository<InventoryItems> itemRepository) => _itemRepository = itemRepository;
+    private readonly CatalogClient _catalogClient; 
+
+	public ItemController(IRepository<InventoryItems> itemRepository, CatalogClient catalogClient) 
+                        => (_itemRepository, _catalogClient)  = (itemRepository, catalogClient);
 
     [HttpGet]
     public async Task<ActionResult<IEnumerable<InventoryItemDto>>> GetAsync(Guid userId)
@@ -18,10 +22,20 @@ public class ItemController : ControllerBase
         if (userId == Guid.Empty)
             return BadRequest();
 
-        var items = (await _itemRepository.GetAllAsync(item=> item.UserId == userId))
-                        .Select(item => item.AsDto());
 
-        return Ok(items);
+
+        var catalogItems = await _catalogClient.GetCatalogItemsAsync();
+
+        var InventoryItemEntities = await _itemRepository.GetAllAsync(item=>item.UserId == userId);
+
+        var inventoryItemDto = InventoryItemEntities.Select(inventoryItem =>
+        {
+            var catalogItem = catalogItems.Single(catalogItem => catalogItem.Id == inventoryItem.CatalogItemId);
+
+            return inventoryItem.AsDto(catalogItem.Name, catalogItem.Description);
+        });
+
+        return Ok(inventoryItemDto);
     }
 
 
