@@ -1,5 +1,6 @@
 ﻿using MassTransit;
 using Microsoft.AspNetCore.Mvc;
+using Play.Catalog.Contracts;
 using Play.Catalog.Services.Entities;
 using Play.Catalog.Services.ItemsDtos;
 using Play.Common;
@@ -89,6 +90,8 @@ public class ItemController : ControllerBase
 
         await _itemRepos.CreateAsync(item);
 
+        await _publishEndpoint.Publish(new CatalogItemCreated(item.Id, item.Name, item.Description));
+
         return CreatedAtAction(nameof(GetByIdAsync), new { id = item.Id }, item);
     }
 
@@ -106,6 +109,8 @@ public class ItemController : ControllerBase
 
         await _itemRepos.UpdateAsync(existingItem);
 
+        await _publishEndpoint.Publish(new CatalogItemUpdated(existingItem.Id, existingItem.Name, existingItem.Description));
+
         return NoContent();
     }
 
@@ -118,6 +123,7 @@ public class ItemController : ControllerBase
             return NotFound();
 
         await _itemRepos.RemoveAsync(existingItem.Id);
+        await _publishEndpoint.Publish(new CatalogItemDeleted(existingItem.Id));
 
         return NoContent();
     }
