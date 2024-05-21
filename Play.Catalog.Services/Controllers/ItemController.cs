@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using MassTransit;
+using Microsoft.AspNetCore.Mvc;
 using Play.Catalog.Services.Entities;
 using Play.Catalog.Services.ItemsDtos;
 using Play.Common;
@@ -10,34 +11,58 @@ namespace Play.Catalog.Services.Controllers;
 public class ItemController : ControllerBase
 {
     private readonly IRepository<Item> _itemRepos;
-    private static int _requestCounter = 0;
 
-    public ItemController(IRepository<Item> itemRepos) => _itemRepos = itemRepos;
+    private readonly IPublishEndpoint _publishEndpoint;
+
+    #region Previous GetAsync Methods for Simulating Transaction Failure
+    //private static int _requestCounter = 0;
+    #endregion
+
+    public ItemController(IRepository<Item> itemRepos, IPublishEndpoint publishEndpoint) =>
+                                        (_itemRepos, _publishEndpoint) = (itemRepos, publishEndpoint);
+
+
+
+    #region Previous GetAsync Methods for Simulating Transaction Failure
+
+
+    //[HttpGet]
+    //public async Task<ActionResult<IEnumerable<ItemDto>>> GetAsync()
+    //{
+    //    _requestCounter++;
+    //    Console.WriteLine($"Request :{_requestCounter} starting. ");
+
+    //    if (_requestCounter <= 2)
+    //    {
+    //        Console.WriteLine($"Request :{_requestCounter} delaying. ");
+    //        await Task.Delay(TimeSpan.FromSeconds(10));
+    //    }
+
+    //    if (_requestCounter <= 4)
+    //    {
+    //        Console.WriteLine($"Request{_requestCounter} : 500 (Internal Server Error.)");
+    //        return StatusCode(500);
+    //    }
+
+    //    var items = (await _itemRepos.GetAllAsync())
+    //                    .Select(item => item.AsDto());
+
+    //    Console.WriteLine($"Request{_requestCounter} : 200 (Ok)");
+
+    //    return Ok(items);
+    //}
+
+    #endregion
+
 
 
 
     [HttpGet]
     public async Task<ActionResult<IEnumerable<ItemDto>>> GetAsync()
     {
-        _requestCounter++;
-        Console.WriteLine($"Request :{_requestCounter} starting. ");
-
-        if (_requestCounter<=2 )
-        {
-            Console.WriteLine($"Request :{_requestCounter} delaying. ");
-            await Task.Delay(TimeSpan.FromSeconds(10));
-        }
-
-        if (_requestCounter <= 4)
-        {
-            Console.WriteLine($"Request{_requestCounter} : 500 (Internal Server Error.)");
-            return StatusCode(500);
-        }
 
         var items = (await _itemRepos.GetAllAsync())
                         .Select(item => item.AsDto());
-
-        Console.WriteLine($"Request{_requestCounter} : 200 (Ok)");
 
         return Ok(items);
     }
