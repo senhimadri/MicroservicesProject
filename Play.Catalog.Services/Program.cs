@@ -21,7 +21,11 @@ builder.Services.AddMassTransit(x =>
     x.UsingRabbitMq((context,configurator)=>
     {
         var rabbitMQSettings = builder.Configuration.GetSection(nameof(RabbitMQSettings)).Get<RabbitMQSettings>();
-        configurator.Host(rabbitMQSettings!.Host);
+        configurator.Host(rabbitMQSettings!.Host, h =>
+        {
+            h.Username(rabbitMQSettings.UserName);
+            h.Password(rabbitMQSettings.Password);
+        });
         configurator.ConfigureEndpoints(context, new KebabCaseEndpointNameFormatter(prefix: servicesSettings!.ServiceName, includeNamespace: false));
     });
 });

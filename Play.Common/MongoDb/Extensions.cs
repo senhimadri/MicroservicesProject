@@ -19,8 +19,8 @@ public static class Extensions
         services.AddSingleton(serviceProvider =>
         {
             var configuration = serviceProvider.GetService<IConfiguration>();
-
             var servicesSettings = configuration!.GetSection(nameof(ServiceSettings)).Get<ServiceSettings>();
+
             var mongoDbSettings = configuration!.GetSection(nameof(MongoDbSettings)).Get<MongoDbSettings>();
             var MongoClient = new MongoClient(mongoDbSettings!.ConnectionString);
             return MongoClient.GetDatabase(servicesSettings!.ServiceName);
