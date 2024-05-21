@@ -1,4 +1,3 @@
-using Microsoft.Extensions.DependencyInjection;
 using Play.Common.MongoDb;
 using Play.Inventory.Services.Clients;
 using Play.Inventory.Services.Entities;
@@ -12,7 +11,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddMongo()
                 .AddMongoRepository<InventoryItems>("inventoryitems");
 
-
+Random jitterer = new Random();
 
 builder.Services.AddHttpClient<CatalogClient>(client=>
 {
@@ -20,7 +19,8 @@ builder.Services.AddHttpClient<CatalogClient>(client=>
 })
     .AddTransientHttpErrorPolicy(builders => builders.Or<TimeoutRejectedException>().WaitAndRetryAsync(
         retryCount: 5,
-        sleepDurationProvider: retryAttempt => TimeSpan.FromSeconds(Math.Pow(2,retryAttempt)),
+        sleepDurationProvider: retryAttempt => TimeSpan.FromSeconds(Math.Pow(2,retryAttempt))
+                                                + TimeSpan.FromMilliseconds(jitterer.Next(0,1000)),
         onRetry:(outcome, timeSpan, retryAttempt)=>
         {
             var serviceProvider = builder.Services.BuildServiceProvider();
