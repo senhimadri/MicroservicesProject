@@ -9,14 +9,14 @@
     <PackageIcon>images.png</PackageIcon>
     <PackageOutputPath>D:\OWN_Practice\Microservices\MicroservicesProject\NugutPackages</PackageOutputPath>
     <PackageId>$(AssemblyName)</PackageId>
-    <Version>$(VersionPrefix)</Version>
+    <Version>1.0.1</Version>
     <Authors>Himadri Sen</Authors>
     <Company>Senhimadri Dev</Company>
     <Product>$(AssemblyName)</Product>
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="C:\Users\hp\Desktop\images.png">
+    <None Include="C:\Users\hp\Desktop\Images\images.png">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>
