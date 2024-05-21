@@ -28,7 +28,7 @@ public class ItemController : ControllerBase
             await Task.Delay(TimeSpan.FromSeconds(10));
         }
 
-        if (_requestCounter <= 2)
+        if (_requestCounter <= 4)
         {
             Console.WriteLine($"Request{_requestCounter} : 500 (Internal Server Error.)");
             return StatusCode(500);
