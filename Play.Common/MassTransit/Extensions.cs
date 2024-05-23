@@ -27,6 +27,10 @@ public static class Extensions
                     h.Password(rabbitMQSettings.Password);
                 });
                 configurator.ConfigureEndpoints(context, new KebabCaseEndpointNameFormatter(prefix: servicesSettings!.ServiceName, includeNamespace: false));
+                configurator.UseMessageRetry(retryConfigurator =>
+                {
+                    retryConfigurator.Interval(3, TimeSpan.FromSeconds(5));
+                });
             });
         });
 

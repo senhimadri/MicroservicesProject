@@ -9,7 +9,7 @@
     <PackageIcon>images.png</PackageIcon>
     <PackageOutputPath>D:\OWN_Practice\Microservices\MicroservicesProject\NugutPackages</PackageOutputPath>
     <PackageId>$(AssemblyName)</PackageId>
-    <Version>1.0.1</Version>
+    <Version>1.0.2</Version>
     <Authors>Himadri Sen</Authors>
     <Company>Senhimadri Dev</Company>
     <Product>$(AssemblyName)</Product>
